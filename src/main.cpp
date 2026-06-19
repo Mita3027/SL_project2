@@ -76,7 +76,6 @@ void loop()
     {
         // MQTT reconnect + processing
         reconnect();
-        client.loop();
     }
 
     // RTC every 1 second
@@ -110,10 +109,12 @@ void loop()
     {
         mqttTimer = millis();
 
-        if (client.connected())
+        if (mqttClient.connected())
         {
-            client.publish(
+            mqttClient.publish(
                 "esp32/test1",
+                2,
+                false,
                 "RECEIVED !!"
             );
 
