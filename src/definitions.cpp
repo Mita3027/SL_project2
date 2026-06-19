@@ -23,12 +23,11 @@ unsigned long myChannelNumber = 3;
 const char * myWriteAPIKey = "OG9Q97ENZCHBEBPY";
 
 WiFiClient espClient;
-PubSubClient client(espClient);
+AsyncMqttClient mqttClient;
 
 const char* ssid = "Hotspot";
 const char* password = "98761234";
-const char* mqtt_server = "10.136.134.35"; 
-unsigned long lastPublish = 0;
+const char* mqtt_server = "10.136.134.35";
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
