@@ -8,7 +8,8 @@
 #include <AsyncMqttClient.h>
 #include "ThingSpeak.h"
 #include <Adafruit_Sensor.h>
-
+#include <LittleFS.h>
+#include <HTTPClient.h>
 
 
 extern RTC_DS3231 rtc;
@@ -16,6 +17,7 @@ extern SensirionI2CSgp40 sgp40;
 extern VOCGasIndexAlgorithm vocAlgorithm;
 extern Adafruit_SCD30 scd30;
 extern AsyncMqttClient mqttClient;
+extern HTTPClient http;
 
 extern AsyncWebServer server;
 extern AsyncWebSocket ws;
@@ -30,6 +32,8 @@ extern char g_date[20];
 
 extern String dateValue;
 extern String timeValue;
+
+extern bool loggingMode ;
 
 extern unsigned long lastTime;
 extern unsigned long timerDelay;
