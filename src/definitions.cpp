@@ -16,19 +16,20 @@ char g_date[20];
 String dateValue = "";
 String timeValue = "";
 
+bool loggingMode = false;
+
 unsigned long lastTime = 0;
 unsigned long timerDelay = 15000;
 
 unsigned long myChannelNumber = 3;
-const char * myWriteAPIKey = "OG9Q97ENZCHBEBPY";
+const char * myWriteAPIKey = "FTUYIHJFFFQ46Q4C"; 
 
 WiFiClient espClient;
-PubSubClient client(espClient);
+AsyncMqttClient mqttClient;
 
 const char* ssid = "Hotspot";
 const char* password = "98761234";
-const char* mqtt_server = "10.136.134.35"; 
-unsigned long lastPublish = 0;
+const char* mqtt_server = "10.136.134.35";
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");

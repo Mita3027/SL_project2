@@ -60,21 +60,30 @@
 
 
 
-//---------------------------------------------------------------------------------------------------------------------------------
-
-
 #include "mqtt.h"
 
-void callback(char* topic, byte* payload, unsigned int length)
+void onMqttConnect(bool sessionPresent)
+{
+    Serial.println("MQTT Connected");
+    mqttClient.subscribe("aqm/mqtt2", 2);
+    Serial.println("Hello");
+}
+
+void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
+{
+    Serial.print("MQTT Disconnected: ");
+    Serial.println((int8_t)reason);
+}
+
+void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total)
 {
     Serial.print("Topic: ");
     Serial.println(topic);
 
     String msg;
-
-    for(unsigned int i=0;i<length;i++)
+    for(size_t i = 0; i < len; i++)
     {
-        msg += (char)payload[i];
+        msg += payload[i];
     }
 
     Serial.print("Message: ");
@@ -84,37 +93,23 @@ void callback(char* topic, byte* payload, unsigned int length)
 void setupWiFi()
 {
     Serial.println("Starting WiFi...");
-    WiFi.begin(ssid,password);
+    WiFi.begin(ssid, password);
+    delay(500);
+    Serial.println(WiFi.localIP());
 }
 
 void setupMQTT()
 {
-    client.setServer(mqtt_server,1883);
-    client.setCallback(callback);
+    mqttClient.setServer(mqtt_server, 1883);
+    mqttClient.onConnect(onMqttConnect);
+    mqttClient.onDisconnect(onMqttDisconnect);
+    mqttClient.onMessage(onMqttMessage);
 }
 
 void reconnect()
 {
-    static unsigned long lastAttempt = 0;
-
-    if(client.connected())
-        return;
-
-    if(millis() - lastAttempt > 5000)
+    if(!mqttClient.connected() && WiFi.status() == WL_CONNECTED)
     {
-        lastAttempt = millis();
-
-        Serial.println("Trying MQTT reconnect...");
-
-        if(client.connect("ESP32Client"))
-        {
-            Serial.println("MQTT Connected");
-
-            client.subscribe("esp32/test");
-        }
-        else
-        {
-            Serial.println("MQTT Failed");
-        }
+        mqttClient.connect();
     }
 }
