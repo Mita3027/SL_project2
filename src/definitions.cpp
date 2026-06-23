@@ -16,11 +16,13 @@ char g_date[20];
 String dateValue = "";
 String timeValue = "";
 
+bool loggingMode = false;
+
 unsigned long lastTime = 0;
 unsigned long timerDelay = 15000;
 
 unsigned long myChannelNumber = 3;
-const char * myWriteAPIKey = "OG9Q97ENZCHBEBPY";
+const char * myWriteAPIKey = "FTUYIHJFFFQ46Q4C"; 
 
 WiFiClient espClient;
 AsyncMqttClient mqttClient;

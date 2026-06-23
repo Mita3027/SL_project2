@@ -65,8 +65,8 @@
 void onMqttConnect(bool sessionPresent)
 {
     Serial.println("MQTT Connected");
-    mqttClient.subscribe("esp32/test", 2);
-    Serial.println("Subscribed to esp32/test");
+    mqttClient.subscribe("aqm/mqtt2", 2);
+    Serial.println("Hello");
 }
 
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason)
@@ -94,6 +94,8 @@ void setupWiFi()
 {
     Serial.println("Starting WiFi...");
     WiFi.begin(ssid, password);
+    delay(500);
+    Serial.println(WiFi.localIP());
 }
 
 void setupMQTT()
